@@ -3,7 +3,7 @@
 Langkah detail untuk menjalankan skenario pembayaran WooCommerce melalui koleksi Postman `postman/woocommerce-localwp.postman_collection.json`.
 
 ## Prasyarat
-- Situs LocalWP (`http://creatypestudiobackend.local`) berjalan dan WooCommerce aktif.
+- Situs LocalWP (`https://creatypestudiobackend.local`) berjalan dan WooCommerce aktif.
 - Koleksi dan environment Postman dari folder `postman/` sudah diimpor dan environment dipilih.
 - `productId` mengarah ke produk yang bisa dibeli dan `orderReference` sudah diisi string unik (mis. `DEV-001`).
 - Kredensial Basic Auth (`consumerKey` / `consumerSecret`) masih valid.

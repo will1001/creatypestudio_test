@@ -40,6 +40,11 @@ export interface WooCommerceProduct {
   total_sales: number;
   virtual: boolean;
   downloadable: boolean;
+  downloads?: Array<{
+    id: string;
+    name: string;
+    file: string;
+  }>;
   external_url: string;
   button_text: string;
   tax_status: string;

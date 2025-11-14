@@ -12,7 +12,6 @@ export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('cod');
-  const [orderComplete, setOrderComplete] = useState(false);
 
   // Form states
   const [formData, setFormData] = useState({
@@ -135,9 +134,22 @@ export default function CheckoutPage() {
 
       console.log('Order created successfully:', order);
 
-      // Order created successfully
-      setOrderComplete(true);
+      const productIds = Array.from(
+        new Set(order.line_items?.map(item => item.product_id).filter(Boolean) || [])
+      );
+
       clearCart();
+
+      const queryParams = new URLSearchParams();
+      if (order.id) {
+        queryParams.set('orderId', order.id.toString());
+      }
+      if (productIds.length > 0) {
+        queryParams.set('productIds', productIds.join(','));
+      }
+
+      router.push(`/checkout/success${queryParams.toString() ? `?${queryParams.toString()}` : ''}`);
+      return;
     } catch (error) {
       console.error('Order error:', error);
       setErrors({ submit: error instanceof Error ? error.message : 'Order creation failed. Please try again.' });
@@ -145,36 +157,6 @@ export default function CheckoutPage() {
       setIsProcessing(false);
     }
   };
-
-  if (orderComplete) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="max-w-md w-full bg-white rounded-lg p-8 text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Check className="h-8 w-8 text-green-600" />
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Payment Successful!</h1>
-          <p className="text-gray-600 mb-6">
-            Thank you for your purchase. You will receive a confirmation email with download links shortly.
-          </p>
-          <div className="space-y-3">
-            <Link
-              href="/account/orders"
-              className="block w-full px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              View Order History
-            </Link>
-            <Link
-              href="/fonts"
-              className="block w-full px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              Continue Shopping
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">

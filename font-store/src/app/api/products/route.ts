@@ -7,8 +7,8 @@ export async function GET(request: NextRequest) {
 
     // Parse query parameters
     const params: WooCommerceApiParams = {
-      page: searchParams.get('page') ? parseInt(searchParams.get('page')!) : undefined,
-      per_page: searchParams.get('per_page') ? parseInt(searchParams.get('per_page')!) : undefined,
+      page: searchParams.get('page') ? parseInt(searchParams.get('page')!) : 1,
+      per_page: searchParams.get('per_page') ? parseInt(searchParams.get('per_page')!) : 20,
       search: searchParams.get('search') || undefined,
       category: searchParams.get('category') || undefined,
       tag: searchParams.get('tag') || undefined,

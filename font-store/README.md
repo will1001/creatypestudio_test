@@ -205,11 +205,11 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
 ## 🧪 WooCommerce API Testing
 
-Use the bundled Postman assets under `postman/` to poke the WooCommerce store that runs inside LocalWP (`http://creatypestudiobackend.local`).
+Use the bundled Postman assets under `postman/` to poke the WooCommerce store that runs inside LocalWP (`https://creatypestudiobackend.local`).
 
 1. Import `postman/woocommerce-localwp.postman_collection.json` into Postman.
 2. Import `postman/localwp-woocommerce.postman_environment.json`, select it, and confirm the default variables:
-   - `baseUrl` (`http://creatypestudiobackend.local`)
+   - `baseUrl` (`https://creatypestudiobackend.local`)
    - `consumerKey` / `consumerSecret` (already filled with the provided REST credentials)
    - `productId` and `orderId` placeholders (set them to real IDs from your catalog/orders before running the related requests).
 3. Start LocalWP so the WooCommerce site is reachable, then run the requests (health check, products, orders, customers, and mutations like create product/order and update order status). The collection now includes order presets for cash-on-delivery, credit-card (Stripe-style), and PayPal scenarios—pick the payment flow you want to simulate before sending.

@@ -21,38 +21,104 @@ interface UseProductResult {
   fetchProduct: (id: number) => Promise<void>;
 }
 
+const DEFAULT_PRODUCT_PARAMS: Pick<WooCommerceApiParams, 'page' | 'per_page'> = {
+  page: 1,
+  per_page: 20,
+};
+
+const PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_WC_PRODUCTS_URL ||
+  'https://creatypestudiobackend.local/wp-json/wc/v3/products';
+const PUBLIC_CONSUMER_KEY = process.env.NEXT_PUBLIC_WOOCOMMERCE_CONSUMER_KEY || 'ck_0022b503bc112022ac4af1b9b73e1b6bf4cfe890';
+const PUBLIC_CONSUMER_SECRET = process.env.NEXT_PUBLIC_WOOCOMMERCE_CONSUMER_SECRET || 'cs_3340260f4ed4645c28822375f397e968a4e27996';
+
+const getAuthHeader = () => {
+  if (!PUBLIC_CONSUMER_KEY || !PUBLIC_CONSUMER_SECRET) {
+    return undefined;
+  }
+
+  if (typeof window !== 'undefined' && typeof window.btoa === 'function') {
+    return `Basic ${window.btoa(`${PUBLIC_CONSUMER_KEY}:${PUBLIC_CONSUMER_SECRET}`)}`;
+  }
+
+  if (typeof Buffer !== 'undefined') {
+    return `Basic ${Buffer.from(`${PUBLIC_CONSUMER_KEY}:${PUBLIC_CONSUMER_SECRET}`).toString('base64')}`;
+  }
+
+  return undefined;
+};
+
+const buildProductsUrl = (params: WooCommerceApiParams) => {
+  const url = new URL(PUBLIC_BASE_URL);
+
+  const finalPage = params.page ?? DEFAULT_PRODUCT_PARAMS.page!;
+  const finalPerPage = params.per_page ?? DEFAULT_PRODUCT_PARAMS.per_page!;
+  url.searchParams.set('page', finalPage.toString());
+  url.searchParams.set('per_page', finalPerPage.toString());
+
+  const optionalParams: Array<[keyof WooCommerceApiParams, (value: any) => string]> = [
+    ['search', (value) => value],
+    ['category', (value) => value],
+    ['tag', (value) => value],
+    ['status', (value) => value],
+    ['type', (value) => value],
+    ['featured', (value) => String(value)],
+    ['on_sale', (value) => String(value)],
+    ['min_price', (value) => value.toString()],
+    ['max_price', (value) => value.toString()],
+    ['stock_status', (value) => value],
+    ['orderby', (value) => value],
+    ['order', (value) => value],
+  ];
+
+  optionalParams.forEach(([key, serializer]) => {
+    const paramValue = params[key];
+    if (paramValue !== undefined && paramValue !== null) {
+      url.searchParams.set(key, serializer(paramValue));
+    }
+  });
+
+  return url.toString();
+};
+
+const buildProductDetailUrl = (productId: number) => {
+  const baseUrl = PUBLIC_BASE_URL.replace(/\/$/, '');
+  return `${baseUrl}/${productId}`;
+};
+
 export function useProducts(options: UseProductsOptions = {}): UseProductsResult {
   const [products, setProducts] = useState<WooCommerceProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [total, setTotal] = useState(0);
-  const [currentParams, setCurrentParams] = useState<WooCommerceApiParams>(options);
+  const [currentParams, setCurrentParams] = useState<WooCommerceApiParams>({
+    ...DEFAULT_PRODUCT_PARAMS,
+    ...options,
+  });
 
   const fetchProducts = async (params?: WooCommerceApiParams) => {
     setLoading(true);
     setError(null);
 
     try {
-      const searchParams = new URLSearchParams();
-      const finalParams = { ...currentParams, ...params };
-
-      Object.entries(finalParams).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          searchParams.append(key, value.toString());
-        }
+      const finalParams = { ...DEFAULT_PRODUCT_PARAMS, ...currentParams, ...params };
+      setCurrentParams(finalParams);
+      const url = buildProductsUrl(finalParams);
+      const authHeader = getAuthHeader();
+      const response = await fetch(url, {
+        headers: authHeader ? { Authorization: authHeader } : undefined,
+        mode: 'cors',
       });
 
-      const response = await fetch(`/api/products?${searchParams.toString()}`);
-      const result = await response.json();
-
-      if (result.success) {
-        setProducts(result.data);
-        setTotal(result.total);
-      } else {
-        setError(result.error || 'Failed to fetch products');
-        setProducts([]);
-        setTotal(0);
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Failed to fetch products');
       }
+
+      const data: WooCommerceProduct[] = await response.json();
+      const totalCount = parseInt(response.headers.get('X-WP-Total') || data.length.toString(), 10);
+
+      setProducts(data);
+      setTotal(totalCount);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');
       setProducts([]);
@@ -92,15 +158,20 @@ export function useProduct(id?: number): UseProductResult {
     setError(null);
 
     try {
-      const response = await fetch(`/api/products/${productId}`);
-      const result = await response.json();
+      const url = buildProductDetailUrl(productId);
+      const authHeader = getAuthHeader();
+      const response = await fetch(url, {
+        headers: authHeader ? { Authorization: authHeader } : undefined,
+        mode: 'cors',
+      });
 
-      if (result.success) {
-        setProduct(result.data);
-      } else {
-        setError(result.error || 'Failed to fetch product');
-        setProduct(null);
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Failed to fetch product');
       }
+
+      const data: WooCommerceProduct = await response.json();
+      setProduct(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');
       setProduct(null);
