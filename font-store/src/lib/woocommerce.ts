@@ -165,7 +165,7 @@ export interface WooCommerceOrder {
   payment_method_title: string;
   transaction_id: string;
   date_paid: string;
-  date_completed: string;
+  date_completed: string | null;
   cart_hash: string;
   line_items: Array<{
     id: number;
@@ -428,6 +428,13 @@ class WooCommerceAPI {
     }
   }
 
+  async getOrders(params: WooCommerceApiParams = {}): Promise<WooCommerceOrder[]> {
+    if (USE_MOCK_DATA) {
+      return this.getMockOrders(params);
+    }
+    return await this.makeRequest('orders', { ...params, per_page: params.per_page || 10 });
+  }
+
   private getMockProducts(params: WooCommerceApiParams): WooCommerceProduct[] {
     let filteredProducts = [...mockProducts];
 
@@ -506,6 +513,187 @@ class WooCommerceAPI {
     const endIndex = startIndex + perPage;
 
     return filteredProducts.slice(startIndex, endIndex);
+  }
+
+  private getMockOrders(params: WooCommerceApiParams): WooCommerceOrder[] {
+    // Mock orders data for development
+    const mockOrders: WooCommerceOrder[] = [
+      {
+        id: 81,
+        parent_id: 0,
+        number: "81",
+        order_key: "wc_order_example123",
+        created_via: "checkout",
+        version: "8.0.0",
+        status: "completed",
+        currency: "USD",
+        date_created: "2024-01-15T10:30:00",
+        date_modified: "2024-01-15T10:30:00",
+        discount_total: "0.00",
+        discount_tax: "0.00",
+        shipping_total: "0.00",
+        shipping_tax: "0.00",
+        cart_tax: "0.00",
+        total: "29.00",
+        total_tax: "0.00",
+        prices_include_tax: false,
+        customer_id: 1,
+        customer_ip_address: "192.168.1.1",
+        customer_user_agent: "Mozilla/5.0",
+        customer_note: "",
+        billing: {
+          first_name: "John",
+          last_name: "Doe",
+          company: "",
+          address_1: "123 Main St",
+          address_2: "",
+          city: "Jakarta",
+          state: "JK",
+          postcode: "12345",
+          country: "ID",
+          email: "john.doe@example.com",
+          phone: "+628123456789"
+        },
+        shipping: {
+          first_name: "John",
+          last_name: "Doe",
+          company: "",
+          address_1: "123 Main St",
+          address_2: "",
+          city: "Jakarta",
+          state: "JK",
+          postcode: "12345",
+          country: "ID"
+        },
+        payment_method: "cod",
+        payment_method_title: "Cash on Delivery",
+        transaction_id: "",
+        date_paid: "2024-01-15T10:30:00",
+        date_completed: "2024-01-15T10:30:00",
+        cart_hash: "example_hash",
+        line_items: [
+          {
+            id: 1,
+            name: "Modern Sans Font Family",
+            product_id: 62,
+            variation_id: 0,
+            quantity: 1,
+            tax_class: "",
+            subtotal: "29.00",
+            subtotal_tax: "0.00",
+            total: "29.00",
+            total_tax: "0.00",
+            taxes: [],
+            meta_data: [],
+            sku: "",
+            price: 29
+          }
+        ],
+        tax_lines: [],
+        shipping_lines: [],
+        fee_lines: [],
+        coupon_lines: [],
+        refunds: [],
+        set_paid: true
+      },
+      {
+        id: 80,
+        parent_id: 0,
+        number: "80",
+        order_key: "wc_order_example456",
+        created_via: "checkout",
+        version: "8.0.0",
+        status: "processing",
+        currency: "USD",
+        date_created: "2024-01-14T15:45:00",
+        date_modified: "2024-01-14T15:45:00",
+        discount_total: "0.00",
+        discount_tax: "0.00",
+        shipping_total: "5.00",
+        shipping_tax: "0.00",
+        cart_tax: "0.00",
+        total: "54.00",
+        total_tax: "0.00",
+        prices_include_tax: false,
+        customer_id: 1,
+        customer_ip_address: "192.168.1.1",
+        customer_user_agent: "Mozilla/5.0",
+        customer_note: "Please deliver after 5 PM",
+        billing: {
+          first_name: "Jane",
+          last_name: "Smith",
+          company: "Design Studio",
+          address_1: "456 Creative Ave",
+          address_2: "Suite 200",
+          city: "Bandung",
+          state: "JB",
+          postcode: "40115",
+          country: "ID",
+          email: "jane@designstudio.com",
+          phone: "+628987654321"
+        },
+        shipping: {
+          first_name: "Jane",
+          last_name: "Smith",
+          company: "Design Studio",
+          address_1: "456 Creative Ave",
+          address_2: "Suite 200",
+          city: "Bandung",
+          state: "JB",
+          postcode: "40115",
+          country: "ID"
+        },
+        payment_method: "cod",
+        payment_method_title: "Cash on Delivery",
+        transaction_id: "",
+        date_paid: "2024-01-14T15:45:00",
+        date_completed: null,
+        cart_hash: "example_hash_2",
+        line_items: [
+          {
+            id: 2,
+            name: "Classic Serif Bundle",
+            product_id: 45,
+            variation_id: 0,
+            quantity: 2,
+            tax_class: "",
+            subtotal: "49.00",
+            subtotal_tax: "0.00",
+            total: "49.00",
+            total_tax: "0.00",
+            taxes: [],
+            meta_data: [],
+            sku: "",
+            price: 24.5
+          }
+        ],
+        tax_lines: [],
+        shipping_lines: [
+          {
+            id: 1,
+            method_title: "Standard Shipping",
+            method_id: "flat_rate",
+            instance_id: "1",
+            total: "5.00",
+            total_tax: "0.00",
+            taxes: [],
+            meta_data: []
+          }
+        ],
+        fee_lines: [],
+        coupon_lines: [],
+        refunds: [],
+        set_paid: true
+      }
+    ];
+
+    // Apply pagination
+    const page = params.page || 1;
+    const perPage = params.per_page || 10;
+    const startIndex = (page - 1) * perPage;
+    const endIndex = startIndex + perPage;
+
+    return mockOrders.slice(startIndex, endIndex);
   }
 }
 

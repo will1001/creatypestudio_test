@@ -15,7 +15,8 @@
       "Bash(PORT=3334 npm run dev:*)",
       "Bash(PORT=3335 npm run dev:*)",
       "Bash(npx next dev:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(sudo:*)"
     ],
     "deny": [],
     "ask": []

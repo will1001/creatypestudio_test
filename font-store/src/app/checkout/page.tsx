@@ -192,7 +192,7 @@ export default function CheckoutPage() {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
+                      className={`w-full px-3 py-2 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
                         errors.email ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="john@example.com"
@@ -208,7 +208,7 @@ export default function CheckoutPage() {
                       name="company"
                       value={formData.company}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full px-3 py-2 border text-gray-900 border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Acme Corp"
                     />
                   </div>
@@ -220,7 +220,7 @@ export default function CheckoutPage() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
+                      className={`w-full px-3 py-2 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
                         errors.phone ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="+62 812-3456-7890"
@@ -236,7 +236,7 @@ export default function CheckoutPage() {
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
+                      className={`w-full px-3 py-2 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
                         errors.firstName ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="John"
@@ -252,7 +252,7 @@ export default function CheckoutPage() {
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
+                      className={`w-full px-3 py-2 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
                         errors.lastName ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="Doe"
@@ -268,7 +268,7 @@ export default function CheckoutPage() {
                       name="address"
                       value={formData.address}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
+                      className={`w-full px-3 py-2 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
                         errors.address ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="123 Main St"
@@ -284,7 +284,7 @@ export default function CheckoutPage() {
                       name="city"
                       value={formData.city}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
+                      className={`w-full px-3 py-2 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
                         errors.city ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="Jakarta"
@@ -299,7 +299,7 @@ export default function CheckoutPage() {
                       name="country"
                       value={formData.country}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
+                      className={`w-full px-3 py-2 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
                         errors.country ? 'border-red-500' : 'border-gray-300'
                       }`}
                       required
@@ -324,7 +324,7 @@ export default function CheckoutPage() {
                       name="zipCode"
                       value={formData.zipCode}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
+                      className={`w-full px-3 py-2 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
                         errors.zipCode ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="12940"
@@ -384,7 +384,7 @@ export default function CheckoutPage() {
                         value={formData.cardNumber}
                         onChange={handleInputChange}
                         placeholder="1234 5678 9012 3456"
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
+                        className={`w-full px-3 py-2 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
                           errors.cardNumber ? 'border-red-500' : 'border-gray-300'
                         }`}
                       />
@@ -399,7 +399,7 @@ export default function CheckoutPage() {
                         value={formData.cardName}
                         onChange={handleInputChange}
                         placeholder="John Doe"
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
+                        className={`w-full px-3 py-2 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
                           errors.cardName ? 'border-red-500' : 'border-gray-300'
                         }`}
                       />
@@ -415,7 +415,7 @@ export default function CheckoutPage() {
                           value={formData.expiryDate}
                           onChange={handleInputChange}
                           placeholder="MM/YY"
-                          className={`w-full px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
+                          className={`w-full px-3 py-2 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
                             errors.expiryDate ? 'border-red-500' : 'border-gray-300'
                           }`}
                         />
@@ -430,7 +430,7 @@ export default function CheckoutPage() {
                           value={formData.cvv}
                           onChange={handleInputChange}
                           placeholder="123"
-                          className={`w-full px-3 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
+                          className={`w-full px-3 py-2 border text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
                             errors.cvv ? 'border-red-500' : 'border-gray-300'
                           }`}
                         />
