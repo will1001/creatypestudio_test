@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import { mockProducts, mockCategories, mockTags } from './mock-data';
 
 // WooCommerce API configuration
-const WOOCOMMERCE_URL = process.env.WOOCOMMERCE_URL || 'https://creatypestudiobackend.local/';
+const WOOCOMMERCE_URL = process.env.WOOCOMMERCE_URL || 'https://wp.cunindonesia.web.id/';
 const CONSUMER_KEY = process.env.WOOCOMMERCE_CONSUMER_KEY || 'ck_0022b503bc112022ac4af1b9b73e1b6bf4cfe890';
 const CONSUMER_SECRET = process.env.WOOCOMMERCE_CONSUMER_SECRET || 'cs_3340260f4ed4645c28822375f397e968a4e27996';
 const USE_MOCK_DATA = process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true';

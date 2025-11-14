@@ -49,7 +49,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'creatypestudiobackend.local',
+        hostname: 'wp.cunindonesia.web.id',
         port: '',
         pathname: '/wp-content/uploads/**',
       },
