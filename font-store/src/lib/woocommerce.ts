@@ -7,12 +7,14 @@ const CONSUMER_KEY = process.env.WOOCOMMERCE_CONSUMER_KEY || 'ck_0022b503bc11202
 const CONSUMER_SECRET = process.env.WOOCOMMERCE_CONSUMER_SECRET || 'cs_3340260f4ed4645c28822375f397e968a4e27996';
 const USE_MOCK_DATA = process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true';
 
-// Debug environment variables
-console.log('Environment variables loaded:');
-console.log('WOOCOMMERCE_URL:', WOOCOMMERCE_URL);
-console.log('CONSUMER_KEY:', CONSUMER_KEY ? CONSUMER_KEY.substring(0, 10) + '...' : 'Missing');
-console.log('CONSUMER_SECRET:', CONSUMER_SECRET ? CONSUMER_SECRET.substring(0, 10) + '...' : 'Missing');
-console.log('USE_MOCK_DATA:', USE_MOCK_DATA);
+// Production environment variables logging
+if (process.env.NODE_ENV === 'development') {
+  console.log('Environment variables loaded:');
+  console.log('WOOCOMMERCE_URL:', WOOCOMMERCE_URL);
+  console.log('CONSUMER_KEY:', CONSUMER_KEY ? CONSUMER_KEY.substring(0, 10) + '...' : 'Missing');
+  console.log('CONSUMER_SECRET:', CONSUMER_SECRET ? CONSUMER_SECRET.substring(0, 10) + '...' : 'Missing');
+  console.log('USE_MOCK_DATA:', USE_MOCK_DATA);
+}
 
 export interface WooCommerceProduct {
   id: number;
@@ -306,7 +308,9 @@ class WooCommerceAPI {
     this.consumerKey = CONSUMER_KEY;
     this.consumerSecret = CONSUMER_SECRET;
 
-    console.log('WooCommerce API initialized with URL:', this.baseUrl);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('WooCommerce API initialized with URL:', this.baseUrl);
+    }
   }
 
   private generateQueryString(params: WooCommerceApiParams): string {
