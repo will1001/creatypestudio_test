@@ -1,19 +1,22 @@
-import { WooCommerceProduct } from './woocommerce';
+import { WooCommerceProduct } from "./woocommerce";
 
 export const mockProducts: WooCommerceProduct[] = [
   {
     id: 62,
     name: "Bentley Monoline Vintage",
     slug: "bentley-monoline-vintage",
-    permalink: "https://creatypestudiobackend.local/product/bentley-monoline-vintage/",
+    permalink:
+      "https://wp.cunindonesia.web.id/product/bentley-monoline-vintage/",
     date_created: "2025-11-14T13:03:24",
     date_modified: "2025-11-14T13:16:44",
     type: "simple",
     status: "publish",
     featured: false,
     catalog_visibility: "visible",
-    description: "<div class=\"brxe-block\">\n<div id=\"brxe-5a9d2a\" class=\"brxe-shortcode\">\n<div class=\"melek-font-tester-container\" data-font-urls=\"[{&quot;url&quot;:&quot;https:\\/\\/creatypestudio.co\\/wp-content\\/uploads\\/2020\\/08\\/Modest.woff&quot;,&quot;name&quot;:&quot;Modest&quot;,&quot;meta_key&quot;:&quot;fonturl&quot;}]\">\n<div id=\"font-rendering-container\">\n<div class=\"font-section\" data-font-family=\"Modest\" data-load-method=\"opentype\">\n<div class=\"font-render-area\">The Quick Brown Fox Jumps Over The Lazy Dogs</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div class=\"brxe-block gap-l\">\n<h2 class=\"brxe-heading text-2xl letter-space-0\">Product Detail</h2>\n<div class=\"brxe-product-content\">\n<p><strong>Modest</strong> a stencil sans font with stylish cut classic stencil that has been designed to create eye catching and intriguing displays.</p>\n<p><strong>Modest</strong> would perfect for photography, watermark, social media posts, advertisements, logos &amp; branding, invitation, product designs, label, stationery, wedding designs, product packaging, special events or anything that need handwriting taste.</p>\n<hr />\n<p><strong>What's Included :</strong></p>\n<ul>\n<li>Modest (OTF/TTF/WOFF)*</li>\n<li>Web Font</li>\n<li>Ton of glyphs</li>\n<li>Ligature &amp; Alternate</li>\n<li>Works on PC &amp; Mac</li>\n<li>Simple installations</li>\n<li><strong>Accessible in</strong> the Adobe Illustrator, Adobe Photoshop, Adobe InDesign, even work on Microsoft Word.</li>\n<li><strong>PUA Encoded Characters</strong> – Fully accessible without additional design software.</li>\n<li>Fonts include <strong>multilingual support</strong> for; Afrikaans, Albanian, Czech, Danish, Dutch, English, Estonian, Finnish, French, German, Hungarian, Italian, Latvian, Lithuanian, Norwegian, Polish, Portugese, Slovak, Slovenian, Spanisch, Swedish.</li>\n</ul>\n<hr />\n<p>Thank you for your purchase!</p>\n<p>Hope you enjoy with our font!</p>\n<p>*Please read <a href=\"https://creatypestudio.co/faq/\"><strong>FAQ page</strong></a> before make a purchase.</p>\n</div>\n</div>\n",
-    short_description: "<div>\n<div>Bentley Monoline Vintage</div>\n<div>\n<div>\n<div> \"category\": \"sans\"</div>\n</div>\n</div>\n</div>\n",
+    description:
+      '<div class="brxe-block">\n<div id="brxe-5a9d2a" class="brxe-shortcode">\n<div class="melek-font-tester-container" data-font-urls="[{&quot;url&quot;:&quot;https:\\/\\/creatypestudio.co\\/wp-content\\/uploads\\/2020\\/08\\/Modest.woff&quot;,&quot;name&quot;:&quot;Modest&quot;,&quot;meta_key&quot;:&quot;fonturl&quot;}]">\n<div id="font-rendering-container">\n<div class="font-section" data-font-family="Modest" data-load-method="opentype">\n<div class="font-render-area">The Quick Brown Fox Jumps Over The Lazy Dogs</div>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div class="brxe-block gap-l">\n<h2 class="brxe-heading text-2xl letter-space-0">Product Detail</h2>\n<div class="brxe-product-content">\n<p><strong>Modest</strong> a stencil sans font with stylish cut classic stencil that has been designed to create eye catching and intriguing displays.</p>\n<p><strong>Modest</strong> would perfect for photography, watermark, social media posts, advertisements, logos &amp; branding, invitation, product designs, label, stationery, wedding designs, product packaging, special events or anything that need handwriting taste.</p>\n<hr />\n<p><strong>What\'s Included :</strong></p>\n<ul>\n<li>Modest (OTF/TTF/WOFF)*</li>\n<li>Web Font</li>\n<li>Ton of glyphs</li>\n<li>Ligature &amp; Alternate</li>\n<li>Works on PC &amp; Mac</li>\n<li>Simple installations</li>\n<li><strong>Accessible in</strong> the Adobe Illustrator, Adobe Photoshop, Adobe InDesign, even work on Microsoft Word.</li>\n<li><strong>PUA Encoded Characters</strong> – Fully accessible without additional design software.</li>\n<li>Fonts include <strong>multilingual support</strong> for; Afrikaans, Albanian, Czech, Danish, Dutch, English, Estonian, Finnish, French, German, Hungarian, Italian, Latvian, Lithuanian, Norwegian, Polish, Portugese, Slovak, Slovenian, Spanisch, Swedish.</li>\n</ul>\n<hr />\n<p>Thank you for your purchase!</p>\n<p>Hope you enjoy with our font!</p>\n<p>*Please read <a href="https://creatypestudio.co/faq/"><strong>FAQ page</strong></a> before make a purchase.</p>\n</div>\n</div>\n',
+    short_description:
+      '<div>\n<div>Bentley Monoline Vintage</div>\n<div>\n<div>\n<div> "category": "sans"</div>\n</div>\n</div>\n</div>\n',
     sku: "",
     price: "19",
     regular_price: "25",
@@ -71,7 +74,7 @@ export const mockProducts: WooCommerceProduct[] = [
         id: 64,
         date_created: "2025-11-14T13:16:02",
         date_modified: "2025-11-14T13:16:02",
-        src: "https://creatypestudiobackend.local/wp-content/uploads/2025/11/Cover-Modest.jpg",
+        src: "https://wp.cunindonesia.web.id/wp-content/uploads/2025/11/Cover-Modest.jpg",
         name: "Cover-Modest",
         alt: "",
       },
@@ -82,7 +85,7 @@ export const mockProducts: WooCommerceProduct[] = [
     grouped_products: [],
     menu_order: 0,
     meta_data: [],
-    stock_status: 'instock',
+    stock_status: "instock",
   },
 ];
 
@@ -90,6 +93,4 @@ export const mockCategories = [
   { id: 16, name: "sans", slug: "sans", count: 1 },
 ];
 
-export const mockTags = [
-  { id: 17, name: "font", slug: "font", count: 1 },
-];
+export const mockTags = [{ id: 17, name: "font", slug: "font", count: 1 }];

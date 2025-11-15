@@ -3,7 +3,7 @@ import { mockProducts, mockCategories, mockTags } from "./mock-data";
 
 // WooCommerce API configuration
 const WOOCOMMERCE_URL =
-  process.env.WOOCOMMERCE_URL || "https://creatypestudiobackend.local/";
+  process.env.WOOCOMMERCE_URL || "https://wp.cunindonesia.web.id/";
 const CONSUMER_KEY =
   process.env.WOOCOMMERCE_CONSUMER_KEY ||
   "ck_0022b503bc112022ac4af1b9b73e1b6bf4cfe890";

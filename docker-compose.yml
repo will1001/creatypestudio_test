@@ -1,0 +1,14 @@
+services:
+  font-store:
+    container_name: font-store
+    build:
+      context: ./font-store
+      dockerfile: Dockerfile
+    image: font-store:latest
+    env_file:
+      - ./font-store/.env.production
+    ports:
+      - "3333:3333"
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production

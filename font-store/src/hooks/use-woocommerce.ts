@@ -29,7 +29,7 @@ const DEFAULT_PRODUCT_PARAMS: Pick<WooCommerceApiParams, "page" | "per_page"> =
 
 const PUBLIC_BASE_URL =
   process.env.NEXT_PUBLIC_WC_PRODUCTS_URL ||
-  "https://creatypestudiobackend.local/wp-json/wc/v3/products";
+  "https://wp.cunindonesia.web.id/wp-json/wc/v3/products";
 const PUBLIC_CONSUMER_KEY =
   process.env.NEXT_PUBLIC_WOOCOMMERCE_CONSUMER_KEY ||
   "ck_0022b503bc112022ac4af1b9b73e1b6bf4cfe890";
