@@ -1,19 +1,30 @@
-import crypto from 'crypto';
-import { mockProducts, mockCategories, mockTags } from './mock-data';
+import crypto from "crypto";
+import { mockProducts, mockCategories, mockTags } from "./mock-data";
 
 // WooCommerce API configuration
-const WOOCOMMERCE_URL = process.env.WOOCOMMERCE_URL || 'https://wp.cunindonesia.web.id/';
-const CONSUMER_KEY = process.env.WOOCOMMERCE_CONSUMER_KEY || 'ck_0022b503bc112022ac4af1b9b73e1b6bf4cfe890';
-const CONSUMER_SECRET = process.env.WOOCOMMERCE_CONSUMER_SECRET || 'cs_3340260f4ed4645c28822375f397e968a4e27996';
-const USE_MOCK_DATA = process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true';
+const WOOCOMMERCE_URL =
+  process.env.WOOCOMMERCE_URL || "https://creatypestudiobackend.local/";
+const CONSUMER_KEY =
+  process.env.WOOCOMMERCE_CONSUMER_KEY ||
+  "ck_0022b503bc112022ac4af1b9b73e1b6bf4cfe890";
+const CONSUMER_SECRET =
+  process.env.WOOCOMMERCE_CONSUMER_SECRET ||
+  "cs_3340260f4ed4645c28822375f397e968a4e27996";
+const USE_MOCK_DATA = process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true";
 
 // Production environment variables logging
-if (process.env.NODE_ENV === 'development') {
-  console.log('Environment variables loaded:');
-  console.log('WOOCOMMERCE_URL:', WOOCOMMERCE_URL);
-  console.log('CONSUMER_KEY:', CONSUMER_KEY ? CONSUMER_KEY.substring(0, 10) + '...' : 'Missing');
-  console.log('CONSUMER_SECRET:', CONSUMER_SECRET ? CONSUMER_SECRET.substring(0, 10) + '...' : 'Missing');
-  console.log('USE_MOCK_DATA:', USE_MOCK_DATA);
+if (process.env.NODE_ENV === "development") {
+  console.log("Environment variables loaded:");
+  console.log("WOOCOMMERCE_URL:", WOOCOMMERCE_URL);
+  console.log(
+    "CONSUMER_KEY:",
+    CONSUMER_KEY ? CONSUMER_KEY.substring(0, 10) + "..." : "Missing"
+  );
+  console.log(
+    "CONSUMER_SECRET:",
+    CONSUMER_SECRET ? CONSUMER_SECRET.substring(0, 10) + "..." : "Missing"
+  );
+  console.log("USE_MOCK_DATA:", USE_MOCK_DATA);
 }
 
 export interface WooCommerceProduct {
@@ -299,8 +310,8 @@ export interface WooCommerceApiParams {
   min_price?: number;
   max_price?: number;
   stock_status?: string;
-  orderby?: 'date' | 'id' | 'title' | 'price' | 'popularity' | 'rating';
-  order?: 'asc' | 'desc';
+  orderby?: "date" | "id" | "title" | "price" | "popularity" | "rating";
+  order?: "asc" | "desc";
 }
 
 class WooCommerceAPI {
@@ -309,12 +320,12 @@ class WooCommerceAPI {
   private consumerSecret: string;
 
   constructor() {
-    this.baseUrl = WOOCOMMERCE_URL.replace(/\/$/, ''); // Remove trailing slash
+    this.baseUrl = WOOCOMMERCE_URL.replace(/\/$/, ""); // Remove trailing slash
     this.consumerKey = CONSUMER_KEY;
     this.consumerSecret = CONSUMER_SECRET;
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log('WooCommerce API initialized with URL:', this.baseUrl);
+    if (process.env.NODE_ENV === "development") {
+      console.log("WooCommerce API initialized with URL:", this.baseUrl);
     }
   }
 
@@ -330,47 +341,58 @@ class WooCommerceAPI {
     return searchParams.toString();
   }
 
-  private async makeRequest(endpoint: string, params: WooCommerceApiParams = {}): Promise<any> {
+  private async makeRequest(
+    endpoint: string,
+    params: WooCommerceApiParams = {}
+  ): Promise<any> {
     try {
       const queryString = this.generateQueryString(params);
-      const url = `${this.baseUrl}/wp-json/wc/v3/${endpoint}${queryString ? `?${queryString}` : ''}`;
+      const url = `${this.baseUrl}/wp-json/wc/v3/${endpoint}${
+        queryString ? `?${queryString}` : ""
+      }`;
 
-      console.log('Fetching from WooCommerce API:', url);
+      console.log("Fetching from WooCommerce API:", url);
 
       const response = await fetch(url, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${Buffer.from(`${this.consumerKey}:${this.consumerSecret}`).toString('base64')}`,
+          "Content-Type": "application/json",
+          Authorization: `Basic ${Buffer.from(
+            `${this.consumerKey}:${this.consumerSecret}`
+          ).toString("base64")}`,
         },
         next: {
           revalidate: 300, // Cache for 5 minutes
-        }
+        },
       });
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('WooCommerce API Error:', response.status, errorText);
-        throw new Error(`WooCommerce API error: ${response.status} - ${errorText}`);
+        console.error("WooCommerce API Error:", response.status, errorText);
+        throw new Error(
+          `WooCommerce API error: ${response.status} - ${errorText}`
+        );
       }
 
       return await response.json();
     } catch (error) {
-      console.error('WooCommerce API request failed:', error);
+      console.error("WooCommerce API request failed:", error);
       throw error;
     }
   }
 
-  async getProducts(params: WooCommerceApiParams = {}): Promise<WooCommerceProduct[]> {
+  async getProducts(
+    params: WooCommerceApiParams = {}
+  ): Promise<WooCommerceProduct[]> {
     if (USE_MOCK_DATA) {
       return this.getMockProducts(params);
     }
-    return await this.makeRequest('products', params);
+    return await this.makeRequest("products", params);
   }
 
   async getProduct(id: number): Promise<WooCommerceProduct> {
     if (USE_MOCK_DATA) {
-      const product = mockProducts.find(p => p.id === id);
+      const product = mockProducts.find((p) => p.id === id);
       if (!product) {
         throw new Error(`Product with ID ${id} not found`);
       }
@@ -379,60 +401,83 @@ class WooCommerceAPI {
     return await this.makeRequest(`products/${id}`);
   }
 
-  async getCategories(params: Partial<WooCommerceApiParams> = {}): Promise<any[]> {
+  async getCategories(
+    params: Partial<WooCommerceApiParams> = {}
+  ): Promise<any[]> {
     if (USE_MOCK_DATA) {
       return mockCategories;
     }
-    return await this.makeRequest('products/categories', params);
+    return await this.makeRequest("products/categories", params);
   }
 
   async getTags(params: Partial<WooCommerceApiParams> = {}): Promise<any[]> {
     if (USE_MOCK_DATA) {
       return mockTags;
     }
-    return await this.makeRequest('products/tags', params);
+    return await this.makeRequest("products/tags", params);
   }
 
-  async searchProducts(query: string, params: WooCommerceApiParams = {}): Promise<WooCommerceProduct[]> {
+  async searchProducts(
+    query: string,
+    params: WooCommerceApiParams = {}
+  ): Promise<WooCommerceProduct[]> {
     return await this.getProducts({
       ...params,
       search: query,
     });
   }
 
-  async createOrder(orderData: WooCommerceOrderData): Promise<WooCommerceOrder> {
+  async createOrder(
+    orderData: WooCommerceOrderData
+  ): Promise<WooCommerceOrder> {
     try {
-      console.log('Creating order with data:', JSON.stringify(orderData, null, 2));
+      console.log(
+        "Creating order with data:",
+        JSON.stringify(orderData, null, 2)
+      );
 
       const response = await fetch(`${this.baseUrl}/wp-json/wc/v3/orders`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${Buffer.from(`${this.consumerKey}:${this.consumerSecret}`).toString('base64')}`,
+          "Content-Type": "application/json",
+          Authorization: `Basic ${Buffer.from(
+            `${this.consumerKey}:${this.consumerSecret}`
+          ).toString("base64")}`,
         },
         body: JSON.stringify(orderData),
       });
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('WooCommerce createOrder API Error:', response.status, errorText);
-        throw new Error(`WooCommerce createOrder API error: ${response.status} - ${errorText}`);
+        console.error(
+          "WooCommerce createOrder API Error:",
+          response.status,
+          errorText
+        );
+        throw new Error(
+          `WooCommerce createOrder API error: ${response.status} - ${errorText}`
+        );
       }
 
       const order = await response.json();
-      console.log('Order created successfully:', order);
+      console.log("Order created successfully:", order);
       return order;
     } catch (error) {
-      console.error('WooCommerce createOrder request failed:', error);
+      console.error("WooCommerce createOrder request failed:", error);
       throw error;
     }
   }
 
-  async getOrders(params: WooCommerceApiParams = {}): Promise<WooCommerceOrder[]> {
+  async getOrders(
+    params: WooCommerceApiParams = {}
+  ): Promise<WooCommerceOrder[]> {
     if (USE_MOCK_DATA) {
       return this.getMockOrders(params);
     }
-    return await this.makeRequest('orders', { ...params, per_page: params.per_page || 10 });
+    return await this.makeRequest("orders", {
+      ...params,
+      per_page: params.per_page || 10,
+    });
   }
 
   private getMockProducts(params: WooCommerceApiParams): WooCommerceProduct[] {
@@ -441,66 +486,78 @@ class WooCommerceAPI {
     // Apply filters
     if (params.search) {
       const searchTerm = params.search.toLowerCase();
-      filteredProducts = filteredProducts.filter(product =>
-        product.name.toLowerCase().includes(searchTerm) ||
-        product.description.toLowerCase().includes(searchTerm) ||
-        product.short_description.toLowerCase().includes(searchTerm)
+      filteredProducts = filteredProducts.filter(
+        (product) =>
+          product.name.toLowerCase().includes(searchTerm) ||
+          product.description.toLowerCase().includes(searchTerm) ||
+          product.short_description.toLowerCase().includes(searchTerm)
       );
     }
 
     if (params.category) {
-      filteredProducts = filteredProducts.filter(product =>
-        product.categories.some(cat => cat.slug === params.category || cat.name.toLowerCase() === params.category?.toLowerCase())
+      filteredProducts = filteredProducts.filter((product) =>
+        product.categories.some(
+          (cat) =>
+            cat.slug === params.category ||
+            cat.name.toLowerCase() === params.category?.toLowerCase()
+        )
       );
     }
 
     if (params.featured) {
-      filteredProducts = filteredProducts.filter(product => product.featured);
+      filteredProducts = filteredProducts.filter((product) => product.featured);
     }
 
     if (params.on_sale) {
-      filteredProducts = filteredProducts.filter(product => product.on_sale);
+      filteredProducts = filteredProducts.filter((product) => product.on_sale);
     }
 
     if (params.min_price !== undefined) {
-      filteredProducts = filteredProducts.filter(product => parseFloat(product.price) >= params.min_price!);
+      filteredProducts = filteredProducts.filter(
+        (product) => parseFloat(product.price) >= params.min_price!
+      );
     }
 
     if (params.max_price !== undefined) {
-      filteredProducts = filteredProducts.filter(product => parseFloat(product.price) <= params.max_price!);
+      filteredProducts = filteredProducts.filter(
+        (product) => parseFloat(product.price) <= params.max_price!
+      );
     }
 
     // Apply sorting
     if (params.orderby) {
       switch (params.orderby) {
-        case 'title':
+        case "title":
           filteredProducts.sort((a, b) => {
             const comparison = a.name.localeCompare(b.name);
-            return params.order === 'desc' ? -comparison : comparison;
+            return params.order === "desc" ? -comparison : comparison;
           });
           break;
-        case 'price':
+        case "price":
           filteredProducts.sort((a, b) => {
             const comparison = parseFloat(a.price) - parseFloat(b.price);
-            return params.order === 'desc' ? -comparison : comparison;
+            return params.order === "desc" ? -comparison : comparison;
           });
           break;
-        case 'date':
+        case "date":
           filteredProducts.sort((a, b) => {
-            const comparison = new Date(a.date_created).getTime() - new Date(b.date_created).getTime();
-            return params.order === 'desc' ? -comparison : comparison;
+            const comparison =
+              new Date(a.date_created).getTime() -
+              new Date(b.date_created).getTime();
+            return params.order === "desc" ? -comparison : comparison;
           });
           break;
-        case 'popularity':
+        case "popularity":
           filteredProducts.sort((a, b) => {
             const comparison = a.total_sales - b.total_sales;
-            return params.order === 'desc' ? -comparison : comparison;
+            return params.order === "desc" ? -comparison : comparison;
           });
           break;
-        case 'rating':
+        case "rating":
           filteredProducts.sort((a, b) => {
-            const comparison = parseFloat(a.average_rating) - parseFloat(b.average_rating);
-            return params.order === 'desc' ? -comparison : comparison;
+            const comparison =
+              parseFloat(a.average_rating) - parseFloat(b.average_rating);
+            return params.order === "desc" ? -comparison : comparison;
           });
           break;
       }
@@ -552,7 +609,7 @@ class WooCommerceAPI {
           postcode: "12345",
           country: "ID",
           email: "john.doe@example.com",
-          phone: "+628123456789"
+          phone: "+628123456789",
         },
         shipping: {
           first_name: "John",
@@ -563,7 +620,7 @@ class WooCommerceAPI {
           city: "Jakarta",
           state: "JK",
           postcode: "12345",
-          country: "ID"
+          country: "ID",
         },
         payment_method: "cod",
         payment_method_title: "Cash on Delivery",
@@ -586,15 +643,15 @@ class WooCommerceAPI {
             taxes: [],
             meta_data: [],
             sku: "",
-            price: 29
-          }
+            price: 29,
+          },
         ],
         tax_lines: [],
         shipping_lines: [],
         fee_lines: [],
         coupon_lines: [],
         refunds: [],
-        set_paid: true
+        set_paid: true,
       },
       {
         id: 80,
@@ -630,7 +687,7 @@ class WooCommerceAPI {
           postcode: "40115",
           country: "ID",
           email: "jane@designstudio.com",
-          phone: "+628987654321"
+          phone: "+628987654321",
         },
         shipping: {
           first_name: "Jane",
@@ -641,7 +698,7 @@ class WooCommerceAPI {
           city: "Bandung",
           state: "JB",
           postcode: "40115",
-          country: "ID"
+          country: "ID",
         },
         payment_method: "cod",
         payment_method_title: "Cash on Delivery",
@@ -664,8 +721,8 @@ class WooCommerceAPI {
             taxes: [],
             meta_data: [],
             sku: "",
-            price: 24.5
-          }
+            price: 24.5,
+          },
         ],
         tax_lines: [],
         shipping_lines: [
@@ -677,14 +734,14 @@ class WooCommerceAPI {
             total: "5.00",
             total_tax: "0.00",
             taxes: [],
-            meta_data: []
-          }
+            meta_data: [],
+          },
         ],
         fee_lines: [],
         coupon_lines: [],
         refunds: [],
-        set_paid: true
-      }
+        set_paid: true,
+      },
     ];
 
     // Apply pagination
